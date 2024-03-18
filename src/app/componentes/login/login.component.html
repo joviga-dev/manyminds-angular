@@ -1,0 +1,19 @@
+<div class="center">
+  <div class="surface-card p-4 shadow-2 border-round w-full">
+    <form>
+      <div class="text-center mb-5">
+          <div class="text-900 text-3xl font-medium mb-3">Login - Teste Técnico Many Minds</div>
+          <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer" routerLink="/criar">Criar Conta</a>
+      </div>
+
+      <div>
+          <label for="email1" class="block text-900 font-medium mb-2">Login</label>
+          <input id="email1" name="login" [(ngModel)]="login.login" type="text" placeholder="Email address" pInputText class="w-full mb-3" required="true">
+
+          <label for="password1" class="block text-900 font-medium mb-2">Senha</label>
+          <input id="password1" name="senha" [(ngModel)]="login.senha"  type="password" placeholder="Password" pInputText class="w-full mb-3" required="true">
+          <p-button (click)="fazerLogin()" label="Entrar"></p-button>
+      </div>
+    </form>
+  </div>
+</div>

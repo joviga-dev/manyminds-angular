@@ -1,0 +1,207 @@
+<form>
+  <div class="center">
+    <div class="p-fluid">
+      <div>
+        <!-- Fornecedor -->
+        <div class="p-field">
+          <label for="fornecedor">Fornecedor</label>
+          <p-button
+            type="button"
+            icon="pi pi-refresh"
+            (click)="atualizaFornecedores()"
+            styleClass="p-button-text"
+          ></p-button>
+          <p-dropdown
+            [options]="fornecedores"
+            name="fornecedor"
+            [(ngModel)]="pedido.fornecedor"
+            optionLabel="id"
+            optionValue="id"
+            [showClear]="true"
+            placeholder="Selecione um Fornecedor"
+          ></p-dropdown>
+          <button
+            pButton
+            type="submit"
+            icon="pi pi-plus"
+            (click)="gerarFornecedores()"
+            label="Gerar Fornecedores"
+          ></button>
+        </div>
+      </div>
+      <div>
+        <!-- Status -->
+        <div class="p-field">
+          <p-inputSwitch
+            id="status"
+            name="status"
+            [(ngModel)]="pedido.status"
+          ></p-inputSwitch>
+          <label for="status">Status</label>
+        </div>
+      </div>
+
+      <div class="p-field">
+        <div>
+          <p-button
+            type="button"
+            icon="pi pi-chevron-left"
+            (click)="prev()"
+            [disabled]="isFirstPage()"
+            styleClass="p-button-text"
+          ></p-button>
+          <p-button
+            type="button"
+            icon="pi pi-refresh"
+            (click)="reset()"
+            styleClass="p-button-text"
+          ></p-button>
+          <p-button
+            type="button"
+            icon="pi pi-chevron-right"
+            (click)="next()"
+            [disabled]="isLastPage()"
+            styleClass="p-button-text"
+          ></p-button>
+        </div>
+
+        <p-table
+          [value]="produtos"
+          [tableStyle]="{ 'min-width': '50rem' }"
+          editMode="row"
+          dataKey="codigo"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="codigo">
+                Código <p-sortIcon field="codigo"></p-sortIcon>
+              </th>
+              <th pSortableColumn="nome">
+                Nome <p-sortIcon field="nome"></p-sortIcon>
+              </th>
+              <th pSortableColumn="valorUnitario">
+                Valor Unitário <p-sortIcon field="valorUnitario"></p-sortIcon>
+              </th>
+              <th pSortableColumn="status" style="width: 20%">
+                Status <p-sortIcon field="status"></p-sortIcon>
+              </th>
+              <th>Adicionar ao Pedido</th>
+            </tr>
+          </ng-template>
+          <ng-template
+            pTemplate="body"
+            let-product
+            let-editing="editing"
+            let-ri="rowIndex"
+          >
+            <tr [pEditableRow]="product">
+              <td>
+                {{ product.codigo }}
+              </td>
+              <td>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input
+                      pInputText
+                      type="text"
+                      name="nome"
+                      [(ngModel)]="product.nome"
+                      required
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ product.nome }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input
+                      pInputText
+                      type="number"
+                      name="valorUnitario"
+                      [(ngModel)]="product.valorUnitario"
+                    />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ product.valorUnitario | currency : "BRL" }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                {{ product.status }}
+              </td>
+              <td>
+                <p-button
+                  type="button"
+                  icon="pi pi-plus"
+                  (click)="add(product)"
+                  styleClass="p-button-text"
+                ></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <!-- Produtos Para Compra -->
+      <p-table
+        [value]="pedido.produtosParaCompra"
+        [tableStyle]="{ 'max-height': '50px' }"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Codigo</th>
+            <th>Quantidade</th>
+            <th>Remover</th>
+            <th>Valor Total</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-produtosParaCompra>
+          <tr>
+            <td>{{ produtosParaCompra.codigo }}</td>
+            <td>{{ produtosParaCompra.quantidade }}</td>
+            <td>
+              <p-button
+                type="button"
+                icon="pi pi-trash"
+                (click)="remove(produtosParaCompra)"
+                styleClass="p-button-text"
+              ></p-button>
+            </td>
+            <td>
+              {{ produtosParaCompra.valorTotal | currency : "BRL" }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <!-- Observação -->
+      <div class="p-field">
+        <label for="obs">Observação</label>
+        <textarea
+          id="obs"
+          name="obs"
+          [(ngModel)]="pedido.obs"
+          rows="4"
+          pInputTextarea
+          [autoResize]="true"
+        ></textarea>
+      </div>
+
+      <!-- Botão de Envio -->
+      <button
+        pButton
+        type="submit"
+        (click)="addPedidoCompra(pedido)"
+        label="Adicionar Pedido de Compra"
+      ></button>
+      <button
+        pButton
+        type="submit"
+        routerLink="/menuPedidosCompra"
+        label="Voltar"
+      ></button>
+    </div>
+  </div>
+</form>

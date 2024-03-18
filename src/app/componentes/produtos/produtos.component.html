@@ -1,0 +1,96 @@
+<div class="center">
+  <label>Produtos</label>
+  <div>
+    <p-button
+      type="button"
+      icon="pi pi-chevron-left"
+      (click)="prev()"
+      [disabled]="isFirstPage()"
+      styleClass="p-button-text"
+    ></p-button>
+    <p-button
+      type="button"
+      icon="pi pi-refresh"
+      (click)="reset()"
+      styleClass="p-button-text"
+    ></p-button>
+    <p-button
+      type="button"
+      icon="pi pi-chevron-right"
+      (click)="next()"
+      [disabled]="isLastPage()"
+      styleClass="p-button-text"
+    ></p-button>
+    <p-button
+      type="button"
+      class="left"
+      icon="pi pi-plus"
+      name="gotoAddPedidosCompra"
+      [routerLink]="['addProdutos']"
+      routerLinkActive="router-link-active"
+      styleClass="p-button-text"
+    ></p-button>
+  </div>
+
+<p-table [value]="produtos" [tableStyle]="{ 'min-width': '50rem' }" editMode="row" dataKey="codigo">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Código</th>
+      <th>Nome</th>
+      <th>Valor Unitário</th>
+      <th>Status</th>
+      <th>Reativar</th>
+      <th>Desativar</th>
+      <th>Editar</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
+    <tr [pEditableRow]="product" >
+      <td>
+        {{product.codigo}}
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input pInputText type="text" name="nome" [(ngModel)]="product.nome" required>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{product.nome}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input pInputText type="number" name="valorUnitario" [(ngModel)]="product.valorUnitario">
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{product.valorUnitario | currency: 'BRL'}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        {{product.status}}
+      </td>
+      <td>
+        <div class="flex align-items-center justify-content-center gap-2">
+          <button [disabled]="product.status" pButton pRipple type="button" icon="pi pi-check" (click)="reativar(product)" class="p-button-rounded p-button-text"></button>
+        </div>
+      </td>
+      <td>
+        <div class="flex align-items-center justify-content-center gap-2">
+          <button [disabled]="!product.status" pButton pRipple type="button" icon="pi pi-times" (click)="delete(product)" class="p-button-rounded p-button-text"></button>
+        </div>
+      </td>
+      <td>
+        <div class="flex align-items-center justify-content-center gap-2">
+          <button [disabled]="!product.status" *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(product)" class="p-button-rounded p-button-text"></button>
+          <button [disabled]="!product.status" *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+          <button [disabled]="!product.status" *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(product, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+</div>

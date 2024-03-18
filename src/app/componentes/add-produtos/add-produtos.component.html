@@ -1,0 +1,49 @@
+<form>
+  <div class="center">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="fornecedor">Código</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="produto.codigo"
+          name="codigo"
+        />
+      </div>
+      <div class="p-field">
+        <label for="fornecedor">Nome</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="produto.nome"
+          name="codigo"
+        />
+      </div>
+      <div class="p-field">
+        <label for="fornecedor">Valor Unitário</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="produto.valorUnitario"
+          name="codigo"
+        />
+      </div>
+      <div class="p-field">
+        <p-inputSwitch
+          id="status"
+          name="status"
+          [(ngModel)]="produto.status"
+        ></p-inputSwitch>
+        <label for="status">Status</label>
+      </div>
+      <!-- Botão de Envio -->
+      <button pButton type="submit" (click)="addProduto()" label="Adicionar Produto"></button>
+      <button
+        pButton
+        type="submit"
+        routerLink="/menuProdutos"
+        label="Voltar"
+      ></button>
+    </div>
+  </div>
+</form>
